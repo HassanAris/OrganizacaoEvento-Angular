@@ -1,6 +1,14 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { provideRouter } from '@angular/router';
+import { routes } from './app/app.routes'; // Certifique-se de que as rotas estão importadas corretamente
+import {  provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { UsuarioService } from './app/service/usuario.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes), // Fornecer as rotas corretamente aqui
+    provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync()
+  ],
+}).catch((err) => console.error(err));

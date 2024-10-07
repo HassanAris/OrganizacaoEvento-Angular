@@ -1,0 +1,37 @@
+
+<div class="login-container">
+  <h2>Criar Usuário</h2>
+  <form [formGroup]="criarUsuarioForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="custom-item">
+        <!-- <label for="custom-input" class="custom-label">Stacked Label</label> -->
+        <input id="email" formControlName="email" type="email" class="form-control" class="custom-input" placeholder="Email">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="custom-item">
+        <!-- <label for="custom-input" class="custom-label">Stacked Label</label> -->
+        <input id="user" formControlName="username" type="text" class="form-control" class="custom-input" placeholder="Nome de Usuário">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="custom-item">
+        <input id="password" formControlName="password" type="password" class="form-control" class="custom-input"  placeholder="Senha">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="custom-item">
+        <input class="password" formControlName="confirmPassword" type="password" class="form-control" class="custom-input"  placeholder="Confirmar Senha">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="criarUsuarioForm.invalid">Criar Usuário</button>
+    <div class="links">
+      <button routerLink="/login" class="buttonUsuario">Voltar para Login</button>
+      <button routerLink="/recuperar-senha" class="buttonUsuario">Recuperar Senha</button>
+    </div>
+
+
+  </form>
+</div>
+
+

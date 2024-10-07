@@ -1,0 +1,16 @@
+
+<div class="login-container">
+  <h2>Recuperar Senha</h2>
+  <form [formGroup]="recuperarSenhaForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="custom-item">
+        <input id="email" formControlName="email" type="email" class="form-control" id="custom-input" placeholder="Email">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="recuperarSenhaForm.invalid">Enviar Recuperação</button>
+    <div class="links">
+      <button routerLink="/login" class="buttonUsuario">Voltar para Login</button>
+      <button routerLink="/criar-usuario" class="buttonUsuario">Criar Usuário</button>
+    </div>
+  </form>
+</div>

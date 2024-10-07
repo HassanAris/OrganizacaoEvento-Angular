@@ -1,0 +1,30 @@
+<div class="home-container">
+  <h1>Eventos</h1>
+  <div class="navigation-buttons">
+    <button (click)="navigateToEventos()" class="btn btn-primary">Tela de Evento</button>
+    <button (click)="navigateToParticipantes()" class="btn btn-primary">Tela de Gerenciamento de Participantes</button>
+  </div>
+  <div class="event-cards">
+    <div *ngFor="let event of events" class="event-card">
+      <div class="event-header">
+        <h3>{{ event.title }}
+          <span *ngIf="!event.isAccepted" class="status-pending">Aguardando confirmação</span>
+        </h3>
+        <p class="event-date">{{ event.date | date: 'dd/MM/yyyy' }}</p>
+      </div>
+      <p class="event-description">{{ event.description }}</p>
+      <div class="event-actions">
+        <button *ngIf="!event.isAccepted" (click)="acceptEvent(event)" class="btn btn-success">
+          <i class="fa-solid fa-thumbs-up"></i> Aceitar
+        </button>
+        <button (click)="declineEvent(event)" class="btn btn-danger">
+          <i class="fa-solid fa-trash"></i> Recusar
+        </button>
+        <button (click)="viewDetails(event)" class="btn btn-info">
+          <i class="fa-solid fa-eye"></i> Ver Detalhes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

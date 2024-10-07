@@ -1,0 +1,33 @@
+<div class="event-management-container">
+  <h1>Gerenciamento de Eventos</h1>
+
+  <div class="event-actions">
+    <button class="btn btn-primary" (click)="openCreateEventModal()">Criar Novo Evento</button>
+  </div>
+
+  <div class="event-cards">
+    <div *ngFor="let event of events" class="event-card">
+      <div class="event-header">
+        <h3>{{ event.titulo }}</h3>
+        <p class="event-date">{{ event.data | date: 'dd/MM/yyyy' }}</p>
+      </div>
+      <p class="event-description">{{ event.descricao }}</p>
+      <div class="event-actions">
+        <button (click)="viewEventDetails(event)" class="btn btn-info"><i class="fa-solid fa-eye"></i> Ver Detalhes</button>
+        <button (click)="editEvent()" class="btn btn-warning"><i class="fa-solid fa-edit"></i> Editar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para criação de evento -->
+  <app-evento-modal *ngIf="isModalOpen" (close)="closeCreateEventModal()" (eventCreated)="addEvent($event)"></app-evento-modal>
+
+    <!-- Modal de Editar Evento -->
+  <ng-template #editEventModal let-modal>
+    <app-editar-evento-modal [event]="selectedEvent" (eventUpdated)="updateEvent($event)"></app-editar-evento-modal>
+  </ng-template>
+
+</div>
+
+
+<app-footer></app-footer>
