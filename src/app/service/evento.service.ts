@@ -29,7 +29,7 @@ export class EventoService {
       titulo: titulo,
       data: new Date(data),
       descricao: descricao,
-      status: 'Aguardando Confirmação'
+      status: 'ok'
     }
     return this.http.post<TbEvento>(`${this.apiUrl}/CriarEvento`, evento, { headers: this.getAuthHeaders() } );
   }

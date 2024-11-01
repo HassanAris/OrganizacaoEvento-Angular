@@ -1,23 +1,28 @@
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title" id="modal-title">Editar Evento</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
-  </div>
-  <div class="modal-body">
-    <form (ngSubmit)="onSubmit()" #editEventForm="ngForm">
-      <div class="mb-3">
-        <label for="eventTitle" class="form-label">Título do Evento</label>
-        <input type="text" id="eventTitle" class="form-control" [(ngModel)]="event.title" name="title" required>
+<!--
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Criar Novo Evento</h2>
+    <form [formGroup]="eventoForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form-group">
+        <label for="title">Título:</label>
+        <input formControlName="titulo" id="title" name="title" [(ngModel)]="event.titulo" required />
       </div>
-      <div class="mb-3">
-        <label for="eventDate" class="form-label">Data do Evento</label>
-        <input type="date" id="eventDate" class="form-control" [(ngModel)]="event.date" name="date" required>
+      <div class="form-group">
+        <label for="date">Data:</label>
+        <input formControlName="data"id="date" name="date" type="date" [(ngModel)]="event.data" required />
       </div>
-      <div class="mb-3">
-        <label for="eventDescription" class="form-label">Descrição</label>
-        <textarea id="eventDescription" class="form-control" [(ngModel)]="event.description" name="description" rows="3" required></textarea>
+      <div class="form-group">
+        <label for="description">Descrição:</label>
+        <textarea formControlName="descricao" id="description" name="description" [(ngModel)]="event.descricao" required></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Salvar</button>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <button type="button" (click)="onClose()" class="btn btn-secondary" >Cancelar</button>
+      </div>
     </form>
   </div>
-</ng-template>
+</div>
+
+
+
+ -->
