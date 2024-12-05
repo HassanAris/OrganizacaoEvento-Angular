@@ -16,23 +16,42 @@ export class EventoService {
 
   constructor(private http: HttpClient) {}
 
-  criarEventoEditar(evento: any, usuarios: any[]): Observable<any> {
-    const dto = {
-      Evento: {
-        Titulo: evento.value.titulo,
-        Data: new Date(evento.value.data),
-        Descricao: evento.value.descricao,
-        Status: 'ok'
-      },
-      Usuarios: usuarios.map((usuario: any) => ({
-        Id: usuario.id,
-        Nome: usuario.nome
-      }))
-    };
-    // Envia os dados para a API
-    return this.http.post(`${this.apiUrl}/CriarEvento`, dto, {headers: this.getAuthHeaders()});
+  criarEventoEditar(evento: any, usuarios: any[], isEdit: boolean): Observable<any> {
+    alert('ok')
+    console.log(isEdit)
+    if(isEdit == false){
+      const dto = {
+        Evento: {
+          Titulo: evento.value.titulo,
+          Data: new Date(evento.value.data),
+          Descricao: evento.value.descricao,
+          Status: 'ok'
+        },
+        Usuarios: usuarios.map((usuario: any) => ({
+          Id: usuario.id,
+          Nome: usuario.nome
+        }))
+      };
+      // Envia os dados para a API
+      return this.http.post(`${this.apiUrl}/CriarEvento`, dto, {headers: this.getAuthHeaders()});
+    }else{
+      const dto = {
+        Evento: {
+          id: evento.value.id,
+          Titulo: evento.value.titulo,
+          Data: new Date(evento.value.data),
+          Descricao: evento.value.descricao,
+          Status: 'ok'
+        },
+        Usuarios: usuarios.map((usuario: any) => ({
+          Id: usuario.id,
+          Nome: usuario.nome
+        }))
+      };
+        // Envia os dados para a API
+      return this.http.post(`${this.apiUrl}/EditarEvento`, dto, {headers: this.getAuthHeaders()});
+    }
   }
-
 
   obterEventos(): Observable<Evento[]> {
     return this.http.get<Evento[]>(`${this.apiUrl}/ObterEventos`,  { headers: this.getAuthHeaders() });

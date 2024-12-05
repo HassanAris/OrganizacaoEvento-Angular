@@ -43,11 +43,11 @@ export class EventoModalComponent {
       titulo: ['', [Validators.required]],
       descricao: [''],
       data:[''],
-      selectedLabels: [[]]
+      selectedLabels: [[]],
+      id:['']
     });
     this.GetUsuarios();
     if (this.isEditMode && this.id) {
-      // console.log(this.id)
       this.carregaInfoEvento(this.id);
 
     }
@@ -72,27 +72,30 @@ export class EventoModalComponent {
   }
 
   onSubmit() {
-    this.eventoService.criarEventoEditar(this.eventoForm,this.selectedLabels ).subscribe({
-      next: (response: any) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Evento Criado Com Sucesso!',
-          showConfirmButton: false,
-          timer: 2000
-        }).then(() => {
-          this.eventCreated.emit();
-          this.onClose();
-        });
-      },
-      error: (err: { error: any; }) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro Ao Criar o Evento!',
-          text:  err.error,
-          confirmButtonText: 'OK'
-        });
+      if(this.id != null){
+        this.eventoForm.value.id = this.id
       }
-    });
+      this.eventoService.criarEventoEditar(this.eventoForm,this.selectedLabels, this.isEditMode).subscribe({
+        next: (response: any) => {
+          Swal.fire({
+            icon: 'success',
+            title: this.isEditMode ? 'Evento Editado Com Sucesso' : 'Evento Criado Com Sucesso!',
+            showConfirmButton: false,
+            timer: 2000
+          }).then(() => {
+            this.eventCreated.emit();
+            this.onClose();
+          });
+        },
+        error: (err: { error: any; }) => {
+          Swal.fire({
+            icon: 'error',
+            title: this.isEditMode ? 'Erro Ao Editar o Evento!' :'Erro Ao Criar o Evento!',
+            text:  err.error,
+            confirmButtonText: 'OK'
+          });
+        }
+      });
   }
 
   carregarEventos(): void {
@@ -102,7 +105,7 @@ export class EventoModalComponent {
   }
 
   GetUsuarios() {
-        this.usuarioService.GetUsuarios().subscribe((usuarios: any) => {
+    this.usuarioService.GetUsuarios().subscribe((usuarios: any) => {
       if (typeof usuarios === 'string') {
         try {
           usuarios = JSON.parse(usuarios); // Se for uma string JSON, faça o parsing
