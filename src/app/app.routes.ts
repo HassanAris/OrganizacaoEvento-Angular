@@ -5,15 +5,16 @@ import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha
 import { HomeComponent } from './pages/home/home.component';
 import { GerenciamentoEventosComponent } from './pages/gerenciamento-eventos/gerenciamento-eventos.component';
 import { AuthGuard } from './guards/auth.guard';
+import { EditarEventoComponent } from './pages/visualizar-evento/visualizar-evento.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para 'login' apenas quando não estiver já na rota
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'criar-usuario', component: CriarUsuarioComponent },
   { path: 'recuperar-senha', component: RecuperarSenhaComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'gerenciamento-eventos', component: GerenciamentoEventosComponent },
-  // Rota wildcard para capturar qualquer rota inválida e redirecionar para a página de login (ou uma página 404)
+  { path: 'visualizar-evento/:id', component: EditarEventoComponent },
   { path: '**', redirectTo: '/login' }
 ];
 

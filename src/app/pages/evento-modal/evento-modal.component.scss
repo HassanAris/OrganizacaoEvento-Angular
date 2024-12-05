@@ -11,6 +11,10 @@
 
 }
 
+i{
+  color: #000000;
+}
+
 .modal-content {
   background-color: #ffffff;
   border-radius: 8px;
@@ -19,7 +23,11 @@
   width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
-  background-color: #34495e;
+  background-color: #ffffff;
+}
+
+label{
+  color: rgb(0, 0, 0);
 }
 
 .form{
@@ -31,6 +39,7 @@ h2 {
   margin-top: 0;
   font-size: 20px;
   text-align: center;
+  font-weight: 400;
 }
 
 .form-group {
@@ -41,6 +50,7 @@ label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  font-weight: 400;
 }
 
 input, textarea {
@@ -48,6 +58,11 @@ input, textarea {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #000000;
+}
+
+input{
+  color: #000000;
 }
 
 textarea {
@@ -61,19 +76,89 @@ textarea {
   gap: 10px;
 }
 
-.btn {
+
+/* Define a largura total do select */
+.full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Estilo do container principal */
+.custom-select {
+  position: relative;
+  display: inline-block;
+}
+
+/* Estilo do botão para abrir o dropdown */
+.select-selected {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
   padding: 10px;
-  border: none;
-  border-radius: 4px;
-  color: #ffffff;
   cursor: pointer;
-  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.btn-success {
-  background-color: #27ae60; /* Cor de fundo para "Salvar" */
+/* Dropdown: lista de itens */
+.select-items {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column; /* Coloca itens em formato de lista (um abaixo do outro) */
 }
 
-.btn-secondary {
-  background-color: #f83131; /* Cor de fundo para "Cancelar" */
+/* Esconde os itens quando o dropdown está fechado */
+.select-hide {
+  display: none;
+}
+
+/* Estilo individual dos itens */
+.select-item {
+  margin-bottom: 8px; /* Espaço entre os itens */
+}
+
+/* Estilo do nome como botão clicável */
+.select-item label {
+  padding: 8px 12px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: block; /* Faz o label ocupar a largura total */
+  width: 100%; /* Ajusta a largura do item à largura do dropdown */
+}
+
+/* Efeito de hover no item */
+.select-item label:hover {
+  background-color: #ddd;
+  color: #000;
+}
+
+/* Estilo para itens selecionados */
+.select-item label.selected {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.select-items {
+  max-height: 200px; /* Define a altura máxima da lista */
+  overflow-y: auto; /* Adiciona a barra de rolagem quando o conteúdo ultrapassar a altura */
+  padding-right: 10px; /* Adiciona um espaçamento à direita para a barra de rolagem */
+}
+
+.select-item.selected {
+  background-color: #3498db; /* Cor de fundo para itens selecionados */
+  color: white; /* Cor do texto para itens selecionados */
+}
+
+.select-item.disabled {
+  pointer-events: none;  /* Desabilita a interação com o item */
+  color: #b0b0b0; /* Cor para itens desabilitados */
 }

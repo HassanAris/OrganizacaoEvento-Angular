@@ -17,6 +17,7 @@ export class CriarUsuarioComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router, private usuarioService: UsuarioService) {
     this.criarUsuarioForm = this.fb.group({
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
@@ -37,7 +38,7 @@ export class CriarUsuarioComponent implements OnInit {
 
   onSubmit() {
     if (this.criarUsuarioForm.valid) {
-      this.usuarioService.createUsuario(this.criarUsuarioForm.value.email, this.criarUsuarioForm.value.password).subscribe({
+      this.usuarioService.createUsuario(this.criarUsuarioForm.value.email, this.criarUsuarioForm.value.password, this.criarUsuarioForm.value.username).subscribe({
         next: (response) => {
           console.log(response)
           Swal.fire({
@@ -45,8 +46,10 @@ export class CriarUsuarioComponent implements OnInit {
             title: 'Usuario criado com sucesso!',
             showConfirmButton: false,
             timer: 2000
+          }).then(() => {
+            this.router.navigate(['/login']);
           });
-          this.router.navigate(['/login']);
+
         },
         error: (err) => {
           console.log(err)

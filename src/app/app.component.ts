@@ -5,9 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CriarUsuarioComponent } from './pages/criar-usuario/criar-usuario.component';
 import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { routes } from './app.routes';
-import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-root',
@@ -19,7 +16,6 @@ import { CommonModule } from '@angular/common';
     CriarUsuarioComponent,
     RecuperarSenhaComponent,
     RouterModule,
-
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -27,5 +23,6 @@ import { CommonModule } from '@angular/common';
 
 
 export class AppComponent {
+
 
 }

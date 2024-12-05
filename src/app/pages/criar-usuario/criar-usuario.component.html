@@ -1,37 +1,39 @@
-
-<div class="login-container">
-  <h2>Criar Usuário</h2>
-  <form [formGroup]="criarUsuarioForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <div class="custom-item">
-        <!-- <label for="custom-input" class="custom-label">Stacked Label</label> -->
-        <input id="email" formControlName="email" type="email" class="form-control" class="custom-input" placeholder="Email">
+<div class="flex h-screen">
+  <div class="w-2/3 bg-cover bg-center">
+    <img src="/img/LoginIMG.png"  class="h-full w-full object-cover opacity-90">
+  </div>
+  <div class="w-1/3 bg-gray-900 flex flex-col justify-center items-center p-8">
+    <div class="w-full max-w-md">
+      <div class="text-white text-3xl font-bold mb-4 flex items-center">
+        <div class="bg-orange-500 rounded-full h-4 w-4 mr-2"></div>
+        Evently - Gerenciamento de Eventos
       </div>
-    </div>
-    <div class="form-group">
-      <div class="custom-item">
-        <!-- <label for="custom-input" class="custom-label">Stacked Label</label> -->
-        <input id="user" formControlName="username" type="text" class="form-control" class="custom-input" placeholder="Nome de Usuário">
+      <p class="text-gray-400 mb-8">Que bom ver você aqui!</p>
+      <form [formGroup]="criarUsuarioForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="name" class="block text-gray-400 mb-2">Nome</label>
+          <input type="text" id="name" formControlName="username" placeholder="Insira seu nome..." class="w-full p-3 rounded bg-gray-800 text-gray-300 border border-gray-700 focus:outline-none focus:border-orange-500">
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-400 mb-2">Email</label>
+          <input type="email" id="email" formControlName="email" placeholder="Insira o seu email..." class="w-full p-3 rounded bg-gray-800 text-gray-300 border border-gray-700 focus:outline-none focus:border-orange-500">
+        </div>
+        <div class="mb-6 relative">
+          <label for="password" class="block text-gray-400 mb-2">Senha</label>
+          <input type="password" id="password" formControlName="password" placeholder="Insira sua senha..." class="w-full p-3 rounded bg-gray-800 text-gray-300 border border-gray-700 focus:outline-none focus:border-orange-500">
+        </div>
+        <div class="mb-6 relative">
+          <label for="password" class="block text-gray-400 mb-2">Confirmar Senha</label>
+          <input type="password" id="password" formControlName="confirmPassword" placeholder="Confirmar senha..." class="w-full p-3 rounded bg-gray-800 text-gray-300 border border-gray-700 focus:outline-none focus:border-orange-500">
+        </div>
+        <button class="w-full bg-orange-500 text-white p-3 rounded hover:bg-orange-600 transition duration-200">Inscrever-se</button>
+      </form>
+      <div class="flex items-center my-6">
+        <div class="flex-grow border-t border-gray-700"></div>
+        <span class="text-gray-500 mx-4">OU CONTINUAR COM</span>
+        <div class="flex-grow border-t border-gray-700"></div>
       </div>
+      <p class="text-gray-500">Você tem uma conta? <a href="#" routerLink="/login" class="text-blue-500">Entre agora</a></p>
     </div>
-    <div class="form-group">
-      <div class="custom-item">
-        <input id="password" formControlName="password" type="password" class="form-control" class="custom-input"  placeholder="Senha">
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="custom-item">
-        <input class="password" formControlName="confirmPassword" type="password" class="form-control" class="custom-input"  placeholder="Confirmar Senha">
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary" [disabled]="criarUsuarioForm.invalid">Criar Usuário</button>
-    <div class="links">
-      <button routerLink="/login" class="buttonUsuario">Voltar para Login</button>
-      <button routerLink="/recuperar-senha" class="buttonUsuario">Recuperar Senha</button>
-    </div>
-
-
-  </form>
+  </div>
 </div>
-
-

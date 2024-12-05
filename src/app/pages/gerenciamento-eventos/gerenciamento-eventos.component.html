@@ -1,33 +1,49 @@
-<div class="event-management-container">
-  <h1>Gerenciamento de Eventos</h1>
-
-  <div class="event-actions">
-    <button class="btn btn-primary" (click)="openCreateEventModal()">Criar Novo Evento</button>
+<app-header></app-header>
+<main class="max-w-7xl mx-auto p-4">
+  <div class="mt-4 flex justify-between items-center">
+      <div class="bg-white p-4 rounded-lg shadow-lg flex space-x-4">
+      <button class="bg-white text-gray-900 px-4 py-2 rounded-lg" (click)="navigateToHome()" ><i class="fas fa-calendar-alt"></i> Agenda</button>
+      <button class="bg-gray-900 text-white p-2 rounded-lg flex items-center space-x-2"> <i class="fas fa-tasks"></i> <span>Planejar</span> </button>
+      <button class="bg-white text-gray-900 px-4 py-2 rounded-lg"> <i class="fas fa-users"></i> Pessoas</button>
+    </div>
   </div>
-
-  <div class="event-cards">
-    <div *ngFor="let event of events" class="event-card">
-      <div class="event-header">
-        <h3>{{ event.titulo }}</h3>
-        <p class="event-date">{{ event.data | date: 'dd/MM/yyyy' }}</p>
+  <div class="mt-4 bg-white p-6 rounded-lg shadow-md">
+    <div class="flex items-center border-b pb-2 mb-4">
+      <h6 class="text-xl font-semibold ml-2">Planejar</h6>
+    </div>
+    <div class="space-y-4">
+      <!-- Mostrar mensagem se não houver eventos -->
+      <div *ngIf="!events || events.length === 0" class="text-gray-600 text-center">
+        <p>Não há eventos existentes ainda. Adicione um novo evento para começar!</p>
       </div>
-      <p class="event-description">{{ event.descricao }}</p>
-      <div class="event-actions">
-        <button (click)="viewEventDetails(event)" class="btn btn-info"><i class="fa-solid fa-eye"></i> Ver Detalhes</button>
-        <button (click)="editEvent()" class="btn btn-warning"><i class="fa-solid fa-edit"></i> Editar</button>
+      <div *ngFor="let event of events" class="event-card" class="bg-gray-50 p-4 rounded-lg shadow-md flex justify-between items-center">
+        <div class="flex items-center">
+          <i class="fas fa-calendar-alt text-green-500 text-2xl"></i>
+          <div class="ml-4">
+            <h6 class="text-lg font-semibold">{{ event.titulo }}</h6>
+            <p class="text-gray-600">{{ event.descricao }}</p>
+            <p class="text-gray-600">{{ event.data | date: 'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+        <div class="flex space-x-2">
+          <button class="text-blue-500" (click)="openModal(event.id)"><i class="fas fa-edit"></i></button>
+          <button class="text-red-500" (click)="deletarEvento(event.id)"><i class="fas fa-trash"></i></button>
+         </div>
       </div>
     </div>
   </div>
-
+  <button class="fixed bottom-5 right-5 bg-gray-900 text-white p-5 rounded-full shadow-lg" (click)="openCreateEventModal()">
+    <span class="btn-inner--icon">
+      <i class="fas fa-plus"></i>
+    </span>
+  </button>
   <!-- Modal para criação de evento -->
-  <app-evento-modal *ngIf="isModalOpen" (close)="closeCreateEventModal()" (eventCreated)="addEvent($event)"></app-evento-modal>
+  <app-evento-modal *ngIf="isModalOpen" (eventCreated)="getEventos()" (close)="closeCreateEventModal()" (eventCreated)="addEvent($event)"></app-evento-modal>
 
-    <!-- Modal de Editar Evento -->
-  <ng-template #editEventModal let-modal>
-    <app-editar-evento-modal [event]="selectedEvent" (eventUpdated)="updateEvent($event)"></app-editar-evento-modal>
-  </ng-template>
+  <div *ngIf="showModal">
+    <app-evento-modal [id]="selectedId" [isEditMode]="isEditMode" (close)="closeModal()"></app-evento-modal>
+  </div>
 
-</div>
-
+</main>
 
 <app-footer></app-footer>

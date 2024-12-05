@@ -36,7 +36,7 @@ export class LoginComponent {
             timer: 1500
           }).then(() => {
             this.usuarioService.gerarToken(this.loginForm.value.email);
-            this.router.navigate(['/home']);  // Redireciona após o Swal fechar
+            this.router.navigate(['/home']);
           });
         },
         error: (err) => {

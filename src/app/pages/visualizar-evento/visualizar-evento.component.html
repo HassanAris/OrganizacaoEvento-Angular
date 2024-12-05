@@ -1,0 +1,39 @@
+<app-header></app-header>
+<main class="max-w-7xl mx-auto p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h6 class="text-xl font-bold">{{ evento?.titulo }}</h6> <!-- Título do evento -->
+  </div>
+  <div class="bg-white rounded shadow p-4">
+    <a class="text-gray-600 hover:text-gray-800 mb-4 inline-block" (click)="voltarPagina()">
+      <i class="fas fa-chevron-left"></i> Voltar
+    </a>
+    <h6 class="text-lg font-bold mb-4">Equipe</h6>
+    <div class="border-t-2 border-green-500 mb-4"></div>
+
+
+    <div *ngIf="usuarios.length === 0" class="text-center text-gray-500">
+      <p>Não há participantes para este evento ainda.</p>
+    </div>
+
+    <div *ngIf="usuarios.length > 0" class="space-y-4">
+      <div *ngFor="let usuario of usuarios" class="flex items-center space-x-4">
+        <div class="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="flex-1">
+          <p class="font-medium text-gray-900">{{ usuario.nome }}</p>
+        </div>
+        <div *ngIf="usuario.statusParticipacao === 'Aceito'">
+          <span class="bg-green-500 text-white px-2 py-1 rounded">{{ usuario.statusParticipacao }}</span>
+        </div>
+        <div *ngIf="usuario.statusParticipacao === 'Pendente'">
+          <span class="bg-yellow-500 text-white px-2 py-1 rounded">Aguardando confirmação</span>
+        </div>
+        <div *ngIf="usuario.statusParticipacao === 'Recusado'">
+          <span class="bg-red-500 text-white px-2 py-1 rounded">{{ usuario.statusParticipacao }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<app-footer></app-footer>
