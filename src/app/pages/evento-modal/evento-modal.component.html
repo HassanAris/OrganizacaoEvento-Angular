@@ -13,17 +13,24 @@
       <div class="mb-4">
         <label class="block text-gray-400 mb-1" for="title">Título:</label>
         <input class="w-full p-2 rounded" formControlName="titulo" id="title" name="title" required />
+        <div *ngIf="eventoForm.get('titulo')?.invalid && eventoForm.get('titulo')?.touched"  class="error-message">
+          <span>O titulo é obrigatório.</span>
+        </div>
       </div>
-
       <div class="mb-4">
-        <label class="block text-gray-400 mb-1" for="date">Data:</label>
-        <input class="w-full p-2 rounded" formControlName="data" id="date" name="date" type="date" required />
+        <label class="block text-gray-400 mb-1" for="datetime">Data e Horário:</label>
+        <input class="w-full p-2 rounded" formControlName="data" id="datetime" name="datetime" type="datetime-local" [min]="minDateTime" required/>
+        <div *ngIf="eventoForm.get('data')?.invalid && eventoForm.get('data')?.touched" class="error-message">
+          <span>A data é obrigatória.</span>
+          <span *ngIf="eventoForm.get('data')?.errors?.['pastDate']">A data não pode ser no passado.</span>
+        </div>
       </div>
 
       <div class="mb-4">
         <label class="block text-gray-400 mb-1" for="description">Descrição:</label>
-        <textarea class="w-full p-2 text-white rounded" formControlName="descricao" id="description" name="description" required></textarea>
+        <textarea class="w-full p-2 text-white rounded" formControlName="descricao" id="description" name="description"></textarea>
       </div>
+
       <div class="mb-4">
         <label class="block text-gray-400 mb-1" for="description">Selecione os Participantes:</label>
         <div class="custom-select full-width mb-1">

@@ -40,7 +40,6 @@ export class CriarUsuarioComponent implements OnInit {
     if (this.criarUsuarioForm.valid) {
       this.usuarioService.createUsuario(this.criarUsuarioForm.value.email, this.criarUsuarioForm.value.password, this.criarUsuarioForm.value.username).subscribe({
         next: (response) => {
-          console.log(response)
           Swal.fire({
             icon: 'success',
             title: 'Usuario criado com sucesso!',
@@ -52,7 +51,6 @@ export class CriarUsuarioComponent implements OnInit {
 
         },
         error: (err) => {
-          console.log(err)
           Swal.fire({
             icon: 'error',
             title: 'Erro no cadastro!',

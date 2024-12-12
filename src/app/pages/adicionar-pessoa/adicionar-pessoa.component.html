@@ -1,0 +1,27 @@
+<div class="bg-gray-900 flex items-center justify-center min-h-screen modal-overlay" (click)="onClose()">
+  <div class="bg-gray-800 text-white p-6 rounded-lg shadow-lg w-96 modal-content" (click)="$event.stopPropagation()">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl text-gray-700">Adicionar Novo Usúario</h2>
+      <i class="fas fa-times cursor-pointer " (click)="onClose()"></i>
+    </div>
+    <p class="text-gray-600 mb-4">Preencha os detalhes</p>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label class="block text-gray-400 mb-1" for="Nome">Nome:</label>
+        <input class="w-full p-2 rounded" formControlName="nome" id="nome" name="nome" required />
+        <div *ngIf="userForm.get('nome')?.invalid && userForm.get('nome')?.touched"  class="error-message">
+          <span>O nome é obrigatório.</span>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-400 mb-1" for="email">Email:</label>
+        <input class="w-full p-2 rounded" formControlName="email" id="email" name="email" required />
+        <div *ngIf="userForm.get('data')?.invalid && userForm.get('data')?.touched"  class="error-message">
+          <span>A data é obrigatória.</span>
+        </div>
+      </div>
+      <button type="submit" class="w-full p-2 bg-orange-600 text-white rounded hover:bg-orange-700 btn">
+        Adicionar
+      </button>
+    </form>
+</div>

@@ -5,6 +5,9 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { HeaderComponent } from '../../components/header/header.component';
 import { EventoService } from '../../service/evento.service';
 import Swal from 'sweetalert2';
+import { UsuarioService } from '../../service/usuario.service';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -12,26 +15,53 @@ import Swal from 'sweetalert2';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent {
   events: any[] = [];
+  usuario!: any;
+  isLoading: boolean = true;
 
-  constructor(private eventoService: EventoService, private router: Router) {}
+  constructor(private eventoService: EventoService, private router: Router, private route: ActivatedRoute, private usuarioService: UsuarioService) {}
+  async ngOnInit() {
 
-  ngOnInit() {
-    this.getEventos();
+    try {
+      // Exibir o loader enquanto a validação ocorre
+      this.isLoading = true;
+
+      // Carregar usuário logado
+      this.usuario = await this.usuarioService.GetUsuarioLogado().toPromise();
+
+      // Após carregar o usuário, obter eventos
+      await this.getEventos();
+    } catch (error) {
+      console.error('Erro ao carregar os dados:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao carregar dados do usuário!',
+        text: 'Você será redirecionado para o login.',
+      }).then(() => {
+        this.router.navigate(['/login']);
+      });
+    } finally {
+      // Ocultar o loader
+      this.isLoading = false;
+    }
   }
 
   getEventos() {
-    this.eventoService.obterEventosPorUsuario().subscribe({
-      next: (data) => {
-        this.events = data;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar eventos:', err);
-      }
+    return new Promise<void>((resolve, reject) => {
+      this.eventoService.obterEventosPorUsuario().subscribe({
+        next: (data) => {
+          this.events = data;
+          resolve();
+        },
+        error: (err) => {
+          console.error('Erro ao carregar eventos:', err);
+          reject(err);
+        }
+      });
     });
   }
-
   acceptEvent(event: any) {
     event.isAccepted = true;
   }
@@ -103,12 +133,24 @@ export class HomeComponent {
     this.router.navigate(['/gerenciamento-eventos']);
   }
 
+
+  navigateToHistorico() {
+    this.router.navigate(['/historico']);
+  }
+
+  navigateToPessoas() {
+    this.router.navigate(['/pessoas']);
+  }
+
   navigateToParticipantes() {
     this.router.navigate(['/gerenciar-participantes']);
   }
 
   visualizarEvento(id: number){
-    this.router.navigate(['/visualizar-evento', id]);
+    // Dentro do método ou componente de origem
+    this.router.navigate(['/visualizar-evento', id], {
+      queryParams: { from: 'home' }  // Passando o parâmetro 'from' que indica de onde está vindo
+    });
   }
 
 

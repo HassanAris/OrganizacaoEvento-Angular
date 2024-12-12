@@ -37,19 +37,27 @@ export class EventoModalComponent {
   dropdownOpen: boolean = false;
   evento: any
   usuariosEditar: any[] = [];
+  minDateTime: string = new Date().toISOString().slice(0, 16);
 
   ngOnInit() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    this.minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`; // Formata para datetime-local
+
     this.eventoForm = this.fb.group({
       titulo: ['', [Validators.required]],
       descricao: [''],
-      data:[''],
+      data: [this.minDateTime, [Validators.required, this.validatePastDate()]],
       selectedLabels: [[]],
       id:['']
     });
     this.GetUsuarios();
     if (this.isEditMode && this.id) {
       this.carregaInfoEvento(this.id);
-
     }
 
     if (this.evento) {
@@ -57,10 +65,18 @@ export class EventoModalComponent {
       this.isEditMode = true;
       this.eventoForm.patchValue({
         titulo: this.evento.titulo,
-        data: this.evento.data.ToString("yyyy-MM-dd"),
+        data: this.evento.data.ToString("yyyy-MM-ddTHH:mm"),
         descricao: this.evento.descricao
       });
     }
+  }
+
+  validatePastDate() {
+    return (control: any) => {
+      const selectedDate = new Date(control.value);
+      const now = new Date();
+      return selectedDate < now ? { pastDate: true } : null;
+    };
   }
 
   closeModal() {
@@ -75,17 +91,21 @@ export class EventoModalComponent {
       if(this.id != null){
         this.eventoForm.value.id = this.id
       }
-      this.eventoService.criarEventoEditar(this.eventoForm,this.selectedLabels, this.isEditMode).subscribe({
-        next: (response: any) => {
-          Swal.fire({
-            icon: 'success',
-            title: this.isEditMode ? 'Evento Editado Com Sucesso' : 'Evento Criado Com Sucesso!',
-            showConfirmButton: false,
-            timer: 2000
-          }).then(() => {
-            this.eventCreated.emit();
-            this.onClose();
-          });
+      if (this.eventoForm.invalid) {
+        this.eventoForm.markAllAsTouched(); // Marca todos os campos como 'tocados'
+        return;
+      }else{
+        this.eventoService.criarEventoEditar(this.eventoForm,this.selectedLabels, this.isEditMode).subscribe({
+          next: (response: any) => {
+            Swal.fire({
+              icon: 'success',
+              title: this.isEditMode ? 'Evento Editado Com Sucesso' : 'Evento Criado Com Sucesso!',
+              showConfirmButton: false,
+              timer: 2000
+            }).then(() => {
+              this.eventCreated.emit();
+              this.onClose();
+            });
         },
         error: (err: { error: any; }) => {
           Swal.fire({
@@ -96,6 +116,7 @@ export class EventoModalComponent {
           });
         }
       });
+    }
   }
 
   carregarEventos(): void {
@@ -105,7 +126,7 @@ export class EventoModalComponent {
   }
 
   GetUsuarios() {
-    this.usuarioService.GetUsuarios().subscribe((usuarios: any) => {
+    this.usuarioService.ListarUsuariosPorOrg().subscribe((usuarios: any) => {
       if (typeof usuarios === 'string') {
         try {
           usuarios = JSON.parse(usuarios); // Se for uma string JSON, faça o parsing
@@ -154,10 +175,9 @@ export class EventoModalComponent {
       (data) => {
         this.evento = data.item1;
         this.usuariosEditar = data.item2;
-
         this.eventoForm.patchValue({
           titulo: this.evento.titulo,
-          data: new Date(this.evento.data).toISOString().split('T')[0],
+          data: this.formatarData(this.evento.data),
           descricao: this.evento.descricao
         });
         this.selectedLabels = this.usuariosEditar.map((usuario: any) => ({
@@ -170,5 +190,19 @@ export class EventoModalComponent {
       }
     );
   }
+  formatarData(data: Date): string {
+    const date = new Date(data);
+
+    // Pega os componentes da data (ano, mês, dia, hora, minuto)
+    const ano = date.getFullYear();
+    const mes = (date.getMonth() + 1).toString().padStart(2, '0');  // Adiciona 1 ao mês, pois o JavaScript começa em 0
+    const dia = date.getDate().toString().padStart(2, '0');
+    const hora = date.getHours().toString().padStart(2, '0');
+    const minuto = date.getMinutes().toString().padStart(2, '0');
+
+    // Formata a string no formato yyyy-MM-ddTHH:mm
+    return `${ano}-${mes}-${dia}T${hora}:${minuto}`;
+  }
+
 
 }

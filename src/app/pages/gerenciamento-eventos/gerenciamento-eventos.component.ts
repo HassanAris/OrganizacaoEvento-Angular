@@ -15,16 +15,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./gerenciamento-eventos.component.scss']
 })
 export class GerenciamentoEventosComponent {
-  close: any;
-
 
   constructor(private eventoService: EventoService, private router: Router) {}
 
+  close: any;
   events: any[] = [];
-
   isModalOpen = false;
   modalService: any;
   selectedEvent: any;
+  selectedId: number | null = null;
+  isEditMode: boolean = false;
+  showModal: boolean = false;
 
   ngOnInit() {
     this.getEventos();
@@ -53,9 +54,7 @@ export class GerenciamentoEventosComponent {
     this.events.push(event);
     this.closeCreateEventModal();
   }
-  selectedId: number | null = null;
-  isEditMode: boolean = false;
-  showModal: boolean = false;
+
 
   openModal(id?: number) {
     this.selectedId = id || null; // Armazena o ID selecionado ou null
@@ -75,8 +74,24 @@ export class GerenciamentoEventosComponent {
     this.router.navigate(['/home']);
   }
 
+  navigateToPessoas() {
+    this.router.navigate(['/pessoas']);
+  }
+
+  navigateToHistorico() {
+    this.router.navigate(['/historico']);
+  }
+
+
   navigateToEditar(id: number) {
     this.router.navigate(['/evento-modal', id]);
+  }
+
+  visualizarEvento(id: number){
+    // Dentro do método ou componente de origem
+    this.router.navigate(['/visualizar-evento', id], {
+      queryParams: { from: 'gerenciamento-eventos' }  // Passando o parâmetro 'from' que indica de onde está vindo
+    });
   }
 
   deletarEvento(id: number): void {

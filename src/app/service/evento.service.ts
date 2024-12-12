@@ -17,15 +17,13 @@ export class EventoService {
   constructor(private http: HttpClient) {}
 
   criarEventoEditar(evento: any, usuarios: any[], isEdit: boolean): Observable<any> {
-    alert('ok')
-    console.log(isEdit)
     if(isEdit == false){
       const dto = {
         Evento: {
           Titulo: evento.value.titulo,
           Data: new Date(evento.value.data),
           Descricao: evento.value.descricao,
-          Status: 'ok'
+          Status: 'Ativo'
         },
         Usuarios: usuarios.map((usuario: any) => ({
           Id: usuario.id,
@@ -41,20 +39,24 @@ export class EventoService {
           Titulo: evento.value.titulo,
           Data: new Date(evento.value.data),
           Descricao: evento.value.descricao,
-          Status: 'ok'
+          Status: 'Ativo'
         },
         Usuarios: usuarios.map((usuario: any) => ({
           Id: usuario.id,
           Nome: usuario.nome
         }))
       };
-        // Envia os dados para a API
+      // Envia os dados para a API
       return this.http.post(`${this.apiUrl}/EditarEvento`, dto, {headers: this.getAuthHeaders()});
     }
   }
 
   obterEventos(): Observable<Evento[]> {
     return this.http.get<Evento[]>(`${this.apiUrl}/ObterEventos`,  { headers: this.getAuthHeaders() });
+  }
+
+  obterEventosInativo(): Observable<Evento[]> {
+    return this.http.get<Evento[]>(`${this.apiUrl}/ObterEventosInativo`,  { headers: this.getAuthHeaders() });
   }
 
   obterEventosPorUsuario(): Observable<Evento[]> {

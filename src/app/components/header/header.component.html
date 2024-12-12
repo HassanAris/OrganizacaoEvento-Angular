@@ -1,19 +1,19 @@
-
-
-<header class="mx-auto bg-gray-900 p-4 flex max-w-7x1 ">
+<header class="mx-auto bg-gray-900 p-4 flex max-w-7x1 relative">
   <div class="container">
-    <!-- Linha com o logo -->
+    <!-- Logo e saudação -->
     <div class="row w-1/4 mx-auto ml-[21%] mb-6">
       <div class="flex justify-between items-center rounded-lg">
         <img src="../../../img/Logo.png" class="h-12">
       </div>
     </div>
-    <!-- Linha com a mensagem -->
     <div class="row w-1/4 ml-[22%] mx-auto ">
-        <h4 class="text-2xl text-white font-semibold">Olá, Hassan Aris</h4>
-        <p class="text-white-600">Tenha um bom evento!</p>
+      <h4 class="text-2xl text-white font-semibold">Olá, {{usuario?.nome}}</h4>
+      <p class="text-white-600">Tenha um bom evento!</p>
     </div>
   </div>
+
+  <!-- Botão de logout no canto superior direito -->
+  <button class="absolute top-4 right-4 text-white bg-white-600 hover:bg-white-700 px-12 py-2 rounded-lg flex items-center" (click)="logout()">
+    <i class="fas fa-sign-out-alt mr-2"></i> Sair
+  </button>
 </header>
-
-
